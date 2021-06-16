@@ -1,14 +1,22 @@
-name: Manually triggered workflow
+name: Example workflow
+
 on:
-  workflow_dispatch:
-    inputs:
-      name:
-        description: 'name'
-        required: false
+  pull_request:
+    types: [opened, labeled, unlabeled, synchronize]
 
 jobs:
-  say_hello:
+  checkLabels:
+    runs-on: ubuntu-latest
+    if: ${{github.event.pull_request.labels.*.name[0]}}
+    steps:
+      - run: echo Check labels is not empty
+  build:
+    needs: [checkLabels]
+    strategy:
+      matrix:
+        label: ${{github.event.pull_request.labels.*.name}}
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "Hello ${{ github.event.inputs.name }}!"
+      - uses: actions/checkout@v2
+      - name: Run a one-line script
+        run: echo Hello, world from "${{matrix.label}}"!
