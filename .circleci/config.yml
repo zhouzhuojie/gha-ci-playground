@@ -7,6 +7,8 @@ jobs:
     steps:
       - checkout
       - run: cat /etc/apt/sources.list
+      - run: sudo sed -i -e 's/http:\/\/us.archive/mirror:\/\/mirrors/' -e 's/\/ubuntu\//\/mirrors.txt/' /etc/apt/sources.list
+      - run: sudo time apt-get update -qq
 
 workflows:
   build:
