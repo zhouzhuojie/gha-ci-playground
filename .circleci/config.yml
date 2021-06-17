@@ -1,0 +1,14 @@
+version: 2.1
+
+jobs:
+  update_ubuntu_mirror:
+    machine:
+      image: "ubuntu-2004:202104-01"
+    steps:
+      - checkout
+      - run: cat /etc/apt/sources.list
+
+workflows:
+  build:
+    jobs:
+      - update_ubuntu_mirror
