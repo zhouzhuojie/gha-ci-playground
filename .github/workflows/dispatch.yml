@@ -11,12 +11,12 @@ jobs:
     steps:
       - run: echo "Check labels is not empty"
       - run: echo "Some heristics to triage which jobs to run"
-      - run: echo "::set-output name=labels::${{toJSON(github.event.pull_request.labels.*.name)}}"
+      - run: echo "::set-output name=labels::${{github.event.pull_request.labels.*.name}}"
   build:
     needs: [dispatch_labels]
     strategy:
       matrix:
-        label: ${{fromJSON(needs.dispatch_labels.outputs.labels)}}
+        label: ${{needs.dispatch_labels.outputs.labels}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
