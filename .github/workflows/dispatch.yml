@@ -5,16 +5,18 @@ on:
     types: [opened, labeled, unlabeled, synchronize]
 
 jobs:
-  checkLabels:
+  dispatch_labels:
     runs-on: ubuntu-latest
     if: ${{github.event.pull_request.labels.*.name[0]}}
     steps:
-      - run: echo Check labels is not empty
+      - run: echo "Check labels is not empty"
+      - run: echo "Some heristics to triage which jobs to run"
+      - run: echo "::set-output name=labels::${{github.event.pull_request.labels}}"
   build:
-    needs: [checkLabels]
+    needs: [dispatch_labels]
     strategy:
       matrix:
-        label: ${{github.event.pull_request.labels.*.name}}
+        label: ${{needs.dispatch_labels.outputs.labels.*.name}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
