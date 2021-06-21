@@ -11,7 +11,7 @@ jobs:
     steps:
       - run: echo "Check labels is not empty"
       - run: echo "Some heristics to triage which jobs to run"
-      - run: echo "::set-output name=labels::${{github.event.pull_request.labels}}"
+      - run: echo "::set-output name=labels::${{github.event.pull_request.labels.*.name}}"
   build:
     needs: [dispatch_labels]
     strategy:
