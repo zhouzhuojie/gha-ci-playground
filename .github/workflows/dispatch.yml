@@ -18,7 +18,7 @@ jobs:
         with:
           python-version: 3.x
           architecture: x64
-      - run: python .github/dispatch/main.py
+      - run: .github/dispatch/main.py
   topic1:
     needs: [dispatch]
     if: contains(fromJSON(needs.dispatch.outputs.topics), 'topic1')
