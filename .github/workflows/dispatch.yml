@@ -5,19 +5,49 @@ on:
     types: [opened, labeled, unlabeled, synchronize]
 
 jobs:
-  dispatch_labels:
+  dispatch:
     runs-on: ubuntu-latest
     if: ${{github.event.pull_request.labels.*.name[0]}}
+    env:
+      pr: ${{toJSON(github.event.pull_request)}}
     steps:
-      - run: echo "Check labels is not empty"
-      - run: echo "Some heristics to triage which jobs to run"
-  build:
-    needs: [dispatch_labels]
-    strategy:
-      matrix:
-        label: ${{github.event.pull_request.labels.*.name}}
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+          architecture: x64
+      - run: python .github/dispatch/main.py
+  topic1:
+    needs: [dispatch]
+    if: contains(fromJSON(needs.dispatch.outputs.topics), 'topic1')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Run a one-line script
-        run: echo Hello, world from "${{matrix.label}}"!
+      - run: |
+          echo ctx: "${{needs.dispatch.outputs.ctx}}"
+          echo topics: "${{needs.dispatch.outputs.topics}}"
+  topic2:
+    needs: [dispatch]
+    if: contains(fromJSON(needs.dispatch.outputs.topics), 'topic2')
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo ctx: "${{needs.dispatch.outputs.ctx}}"
+          echo topics: "${{needs.dispatch.outputs.topics}}"
+  topic3:
+    needs: [dispatch]
+    if: contains(fromJSON(needs.dispatch.outputs.topics), 'topic3')
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo ctx: "${{needs.dispatch.outputs.ctx}}"
+          echo topics: "${{needs.dispatch.outputs.topics}}"
+  topic4:
+    needs: [dispatch]
+    if: contains(fromJSON(needs.dispatch.outputs.topics), 'topic4')
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo ctx: "${{needs.dispatch.outputs.ctx}}"
+          echo topics: "${{needs.dispatch.outputs.topics}}"
