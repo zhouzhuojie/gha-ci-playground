@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import json
 import os
-import sys
 from dataclasses import asdict, dataclass, field
 
 
@@ -34,7 +33,7 @@ class Plan:
 
     def output(self) -> str:
         plan = json.dumps(asdict(self))
-        sys.stdout.write(f"::set-output name=plan::{plan}")
+        print(f"::set-output name=plan::{plan}")
 
     def dispatch(self) -> Plan:
         # simple dispatch strategy: passthrough labels
