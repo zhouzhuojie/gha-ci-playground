@@ -24,6 +24,7 @@ jobs:
         run: .github/dispatch/main.py
   topic1:
     needs: [dispatch]
+    if: contains(fromJSON(needs.dispatch.outputs.plan).topics, 'topic1')
     runs-on: ubuntu-latest
     steps:
       - run: |
@@ -49,3 +50,30 @@ jobs:
     steps:
       - run: |
           echo plan: "${{needs.dispatch.outputs.plan}}"
+  topic1_gha_job1:
+    needs: [topic1]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "topic1_gha_job1"
+  topic1_gha_job2:
+    needs: [topic1]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "topic1_gha_job2"
+  topic1_circleci:
+    needs: [topic1]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        topics: fromJSON(needs.dispatch.outputs.plan).topics
+    steps:
+      - run: |
+          echo "curl https://api.circleci.com"
+  topic2_gha_job1:
+    needs: [topic2]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "topic2_gha_job1"
