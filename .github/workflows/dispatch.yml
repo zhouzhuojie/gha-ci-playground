@@ -18,7 +18,7 @@ jobs:
         with:
           python-version: 3.x
           architecture: x64
-      - run: echo $(.github/dispatch/main.py)
+      - run: echo "$(.github/dispatch/main.py)"
   topic1:
     needs: [dispatch]
     runs-on: ubuntu-latest
