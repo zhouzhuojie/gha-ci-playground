@@ -22,7 +22,7 @@ class Plan:
 
     @classmethod
     def from_env(cls) -> Plan:
-        pr = json.load(os.getenv('PR', '{}'))
+        pr = json.loads(os.getenv('PR', '{}'))
         plan = Plan()
         plan.ctx = PlanContext
         plan.ctx.pr = pr
