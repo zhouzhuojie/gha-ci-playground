@@ -32,17 +32,14 @@ class Plan:
         return self
 
     def output(self) -> str:
-        ctx = json.dumps(asdict(self.ctx))
-        topics = json.dumps(self.topics)
-        print(f"::set-output name=ctx::{ctx}")
-        print(f"::set-output name=topics::{topics}")
+        plan = json.dumps(asdict(self))
+        return f"::set-output name=plan::{plan}"
 
-    def dispatch(self) -> None:
+    def dispatch(self) -> Plan:
         # simple dispatch strategy: passthrough labels
         self.topics = self.ctx.pr.labels
-
-        self.output()
+        return self
 
 
 if __name__ == '__main__':
-    Plan.from_env().dispatch()
+    print(Plan.from_env().dispatch().output())

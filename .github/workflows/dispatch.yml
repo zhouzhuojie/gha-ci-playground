@@ -18,35 +18,31 @@ jobs:
         with:
           python-version: 3.x
           architecture: x64
-      - run: .github/dispatch/main.py
+      - run: echo $(.github/dispatch/main.py)
   topic1:
     needs: [dispatch]
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo ctx: "${{needs.dispatch.outputs.ctx}}"
-          echo topics: "${{needs.dispatch.outputs.topics}}"
+          echo plan: "${{needs.dispatch.outputs.plan}}"
   topic2:
     needs: [dispatch]
-    if: contains(fromJSON(needs.dispatch.outputs.topics), 'topic2')
+    if: contains(fromJSON(needs.dispatch.outputs.plan).topics, 'topic2')
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo ctx: "${{needs.dispatch.outputs.ctx}}"
-          echo topics: "${{needs.dispatch.outputs.topics}}"
+          echo plan: "${{needs.dispatch.outputs.plan}}"
   topic3:
     needs: [dispatch]
-    if: contains(fromJSON(needs.dispatch.outputs.topics), 'topic3')
+    if: contains(fromJSON(needs.dispatch.outputs.plan).topics, 'topic3')
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo ctx: "${{needs.dispatch.outputs.ctx}}"
-          echo topics: "${{needs.dispatch.outputs.topics}}"
+          echo plan: "${{needs.dispatch.outputs.plan}}"
   topic4:
     needs: [dispatch]
-    if: contains(fromJSON(needs.dispatch.outputs.topics), 'topic4')
+    if: contains(fromJSON(needs.dispatch.outputs.plan).topics, 'topic4')
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo ctx: "${{needs.dispatch.outputs.ctx}}"
-          echo topics: "${{needs.dispatch.outputs.topics}}"
+          echo plan: "${{needs.dispatch.outputs.plan}}"
