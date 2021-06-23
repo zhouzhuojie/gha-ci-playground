@@ -23,17 +23,23 @@ class Plan:
     @classmethod
     def from_env(cls) -> Plan:
         envPR = json.loads(os.getenv('PR', '{}'))
-        plan = Plan()
-        plan.ctx.pr.labels = envPR.get('labels', [])
+        plan = Plan().set_labels(envPR)
         return plan
 
+    def set_labels(self, envPR: dict) -> Plan:
+        self.ctx.pr.labels = [label['name'] for label in envPR['labels']]
+        return self
+
     def output(self) -> str:
-        print(f"::set-output name=ctx::{json.dumps(asdict(self.ctx))}")
-        print(f"::set-output name=topics::{json.dumps(self.topics)}")
+        ctx = json.dumps(asdict(self.ctx))
+        topics = json.dumps(self.topics)
+        print(f"::set-output name=ctx::{ctx}")
+        print(f"::set-output name=topics::{topics}")
 
     def dispatch(self) -> None:
-        # simple passthrough to generate the labels
+        # simple dispatch strategy: passthrough labels
         self.topics = self.ctx.pr.labels
+
         self.output()
 
 
