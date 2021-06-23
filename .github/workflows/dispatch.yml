@@ -67,7 +67,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        topics: fromJSON(needs.dispatch.outputs.plan).topics
+        topics: ${{fromJSON(needs.dispatch.outputs.plan).topics}}
     steps:
       - run: |
           echo "curl https://api.circleci.com"
