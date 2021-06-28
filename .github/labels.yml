@@ -1,7 +1,6 @@
 - color: 198be8
-  description: We need to decide whether or not this merits inclusion, based on research
-    world
-  name: needs research
+  description: oncall for jit
+  name: 'oncall: jit'
 - color: daf222
   description:  
   name: topic1
