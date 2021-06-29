@@ -5,7 +5,7 @@ on: issue_comment
 jobs:
   rerun_workflow:
     name: Rerun PR comment
-    if: ${{ github.event.issue.pull_request }}
+    if: github.event.issue.pull_request && contains(github.event.payload.comment.body, "/ok-to-test")
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v2
@@ -20,3 +20,13 @@ jobs:
             core.debug(JSON.stringify(github.event));
             core.debug(JSON.stringify(context));
             core.debug(JSON.stringify(issue));
+            
+            core.debug(JSON.stringify(actions));
+            
+            // add ok-to-test labels
+            github.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['ok-to-test']
+            })
