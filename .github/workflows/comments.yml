@@ -10,7 +10,6 @@ jobs:
     steps:
       - uses: actions/github-script@v2
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             issue = await github.issues.get({
               owner: context.issue.owner,
@@ -21,7 +20,7 @@ jobs:
             core.debug(JSON.stringify(context));
             core.debug(JSON.stringify(issue));
             
-            core.debug(JSON.stringify(actions));
+            core.debug(JSON.stringify(github.actions));
             
 
             // add ok-to-test labels
