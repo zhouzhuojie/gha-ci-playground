@@ -1,0 +1,22 @@
+name: comments_bot
+
+on: issue_comment
+
+jobs:
+  rerun_workflow:
+    name: Rerun PR comment
+    if: ${{ github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v2
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            issue = await github.issues.get({
+              owner: context.issue.owner,
+              repo: context.issue.repo,
+              issue_number: context.issue.number,
+            })
+            core.debug(JSON.stringify(github.event));
+            core.debug(JSON.stringify(context));
+            core.debug(JSON.stringify(issue));
