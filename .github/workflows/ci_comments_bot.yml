@@ -12,14 +12,14 @@ jobs:
         id: fc
         with:
           issue-number: ${{ github.event.issue.number }}
-          body-includes: '📚 Test Plan!'
+          body-includes: '# 📚 Test Plan!'
 
       - name: add comment block
         uses: actions/github-script@v4
         if: steps.fc.outputs.comment-id == 0
         with:
           script: |
-            const body = "#📚 Test Plan!\n" +
+            const body = "# 📚 Test Plan!\n" +
               "- [x] ci/default\n" +
               "- [ ] ci/topic1\n" +
               "- [ ] ci/topic2\n" +
@@ -47,8 +47,8 @@ jobs:
 
             let labels: Array<string> = []
             for (const match of matches) {
-              const { groups: { enabled, label } } = match
-              if (enabled == "x") {
+              const { mark, label } = match.groups
+              if (mark == "x") {
                 labels.push(label)
               }
             }
