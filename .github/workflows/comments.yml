@@ -11,22 +11,6 @@ jobs:
       - uses: actions/github-script@v2
         with:
           script: |
-            issue = await github.issues.get({
-              owner: context.issue.owner,
-              repo: context.issue.repo,
-              issue_number: context.issue.number,
-            })
             core.debug(JSON.stringify(github.event));
             core.debug(JSON.stringify(context));
-            core.debug(JSON.stringify(issue));
-            
-            core.debug(JSON.stringify(github.actions));
-            
-
-            // add ok-to-test labels
-            github.issues.addLabels({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              labels: ['ok-to-test']
-            })
+            core.debug(Object.getOwnPropertyNames(github.actions));
