@@ -39,5 +39,7 @@ jobs:
               });
             }
             
+            const topics = ["topic1", "topic2"];
+            return {topics}
             
             
