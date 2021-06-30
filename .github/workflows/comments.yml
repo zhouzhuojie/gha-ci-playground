@@ -14,3 +14,11 @@ jobs:
             core.debug(JSON.stringify(github.event));
             core.debug(JSON.stringify(context));
             core.debug(Object.getOwnPropertyNames(github.actions));
+            
+            const runs = github.actions.listWorkflowRuns({
+              owner: context.issue.owner,
+              repo: context.issue.repo,
+              workflow_id: 'dispatch.yml',
+            });
+            core.debug(JSON.stringify(runs));
+            
