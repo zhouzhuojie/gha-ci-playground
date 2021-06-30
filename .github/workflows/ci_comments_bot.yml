@@ -3,8 +3,7 @@ name: comments_bot
 on: issue_comment
 
 jobs:
-  rerun_workflow:
-    name: Rerun PR comment
+  dispatch_labels:
     if: github.event.issue.pull_request
     runs-on: ubuntu-latest
     steps:
@@ -18,8 +17,6 @@ jobs:
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                labels: ['topic1', 'topic2', 'ok-to-test']
+                labels: ['ci/topic1', 'ci/topic2', 'ok-to-test']
               })
             }
-
-
