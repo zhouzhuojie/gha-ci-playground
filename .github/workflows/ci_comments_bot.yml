@@ -1,0 +1,25 @@
+name: comments_bot
+
+on: issue_comment
+
+jobs:
+  rerun_workflow:
+    name: Rerun PR comment
+    if: github.event.issue.pull_request
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v2
+        with:
+          script: |
+            const keyword = "/ok-to-test"
+            const body = context.payload.comment.body;
+            if (body.includes(keyword)) {
+              github.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['topic1', 'topic2', 'ok-to-test']
+              })
+            }
+
+

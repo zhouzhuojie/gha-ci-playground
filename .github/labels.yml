@@ -3,19 +3,16 @@
   name: 'oncall: jit'
 - color: 198be8
   description: ok-to-test
-  name: 'ok-to-test'  
-- color: 198be8
-  description: rerun
-  name: 'rerun'
+  name: 'ok-to-test'
 - color: daf222
-  description: topic1 
-  name: topic1
+  description: topic1
+  name: ci/topic1
 - color: daf222
-  description:  
-  name: topic2
+  description:
+  name: ci/topic2
 - color: daf222
-  description:  
-  name: topic3
+  description:
+  name: ci/topic3
 - color: daf222
-  description:  
-  name: topic4
+  description:
+  name: ci/topic4

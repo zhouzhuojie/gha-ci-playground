@@ -1,0 +1,50 @@
+name: ci/topic1
+
+on:
+  pull_request:
+    types: [opened, labeled, unlabeled, synchronize]
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  label_guard:
+    runs-on: ubuntu-latest
+    if: ${{ !github.event_name == "pull_request" || contains(github.event.pull_request.labels.*.name, github.workflow)}}
+  topic1_gha_job1:
+    needs: [label_guard]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "topic1_gha_job1"
+  topic1_gha_job2:
+    needs: [label_guard]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "topic1_gha_job2"
+  topic1_circleci_job1:
+    needs: [label_guard]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "curl https://api.circleci.com"
+  topic1_circleci_job2:
+    needs: [label_guard]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "curl https://api.circleci.com"
+  topic1_circleci_job3:
+    needs: [label_guard]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "curl https://api.circleci.com"
+  topic2_gha_job1:
+    needs: [label_guard]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "topic2_gha_job1"

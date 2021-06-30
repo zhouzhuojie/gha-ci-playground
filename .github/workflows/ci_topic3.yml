@@ -1,0 +1,20 @@
+name: ci/topic3
+
+on:
+  pull_request:
+    types: [opened, labeled, unlabeled, synchronize]
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  label_guard:
+    runs-on: ubuntu-latest
+    if: ${{ !github.event_name == "pull_request" || contains(github.event.pull_request.labels.*.name, github.workflow)}}
+  topic3_gha_job1:
+    needs: [label_guard]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "topic3_gha_job1"
