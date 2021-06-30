@@ -11,12 +11,20 @@ jobs:
       - uses: actions/github-script@v2
         with:
           script: |
+            // search pull requests' branch
+            const pr = await github.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.issue.number,
+            });
+          
+            const ref = pr.data.head.ref; 
+          
             const runed = await github.actions.listWorkflowRuns({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: "dispatch.yml"
+              workflow_id: "dispatch.yml",
+              branch: ref,
             });
-            core.debug(JSON.stringify(context));
             core.debug(runed.data.workflow_runs[0]);
-            core.debug(runed.data.workflow_runs[1]);
             
