@@ -11,14 +11,10 @@ jobs:
       - uses: actions/github-script@v2
         with:
           script: |
-            core.debug(JSON.stringify(github.event));
-            core.debug(JSON.stringify(context));
-            core.debug(Object.getOwnPropertyNames(github.actions));
-            
-            const runs = await github.actions.listWorkflowRuns({
-              owner: context.issue.owner,
-              repo: context.issue.repo,
-              workflow_id: 'dispatch.yml'
+            const runed = await github.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "dispatch.yml"
             });
-            core.debug(JSON.stringify(runs.data));
+            console.log('runed',runed);
             
