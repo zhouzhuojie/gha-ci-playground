@@ -1,4 +1,4 @@
-name: jit-triage
+name: jit_triage
 
 on:
   issues:
