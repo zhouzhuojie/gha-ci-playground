@@ -16,6 +16,7 @@ jobs:
               repo: context.repo.repo,
               workflow_id: "dispatch.yml"
             });
+            core.debug(branch: github.event.issue.pull_request);
             core.debug(runed.data.workflow_runs[0]);
             core.debug(runed.data.workflow_runs[1]);
             
