@@ -17,4 +17,5 @@ jobs:
               workflow_id: "dispatch.yml"
             });
             core.debug(runed.data.workflow_runs[0]);
+            core.debug(runed.data.workflow_runs[1]);
             
