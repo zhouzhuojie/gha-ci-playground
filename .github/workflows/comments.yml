@@ -16,5 +16,5 @@ jobs:
               repo: context.repo.repo,
               workflow_id: "dispatch.yml"
             });
-            console.log(JSON.stringify(runed.data.workflow_runs));
+            core.debug(runed.data.workflow_runs);
             
