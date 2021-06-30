@@ -5,6 +5,9 @@
   description: ok-to-test
   name: 'ok-to-test'
 - color: daf222
+  description: default
+  name: ci/default
+- color: daf222
   description: topic1
   name: ci/topic1
 - color: daf222

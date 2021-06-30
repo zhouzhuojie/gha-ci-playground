@@ -7,16 +7,55 @@ jobs:
     if: github.event.issue.pull_request
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v2
+      - name: find comment
+        uses: peter-evans/find-comment@v1
+        id: fc
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body-includes: '📚 Test Plan!'
+
+      - name: add comment block
+        uses: actions/github-script@v4
+        if: steps.fc.outputs.comment-id == 0
         with:
           script: |
-            const keyword = "/ok-to-test"
-            const body = context.payload.comment.body;
-            if (body.includes(keyword)) {
-              github.issues.addLabels({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                labels: ['ci/topic1', 'ci/topic2', 'ok-to-test']
-              })
+            const body = "#📚 Test Plan!\n" +
+              "- [x] ci/default\n" +
+              "- [ ] ci/topic1\n" +
+              "- [ ] ci/topic2\n" +
+              "- [ ] ci/topic3\n" +
+              "- [ ] ci/topic4\n" +
+              "----"
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            })
+
+      - name: dispatch labels
+        uses: actions/github-script@v4
+        if: steps.fc.outputs.comment-id != 0
+        env:
+          COMMENT_ID: ${{ steps.fc.outputs.comment-id }}
+          COMMENT_BODY: ${{ steps.fc.outputs.comment-body }}
+        with:
+          script: |
+            const {COMMENT_ID, COMMENT_BODY} = process.env
+            const re = new RegExp('-\s+\[([\s|x])\]\s+(.*)[\r\n]+/g')
+            const matches = COMMENT_BODY.matchAll(re)
+
+            let labels: Array<string> = []
+            for (const match of matches) {
+              const { groups: { enabled, label } } = match
+              if (enabled == "x") {
+                labels.push(label)
+              }
             }
+
+            github.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: labels
+            })
