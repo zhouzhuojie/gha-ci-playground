@@ -18,7 +18,6 @@ jobs:
             const runs = github.actions.listWorkflowRuns({
               owner: context.issue.owner,
               repo: context.issue.repo,
-              workflow_id: 'dispatch.yml',
             });
             core.debug(JSON.stringify(runs));
             
