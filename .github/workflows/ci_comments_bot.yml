@@ -44,7 +44,7 @@ jobs:
             const {COMMENT_ID, COMMENT_BODY} = process.env
             const re = new RegExp(/-\s+\[([\s|x])\]\s+(.*)[\r\n]+/g)
 
-            let labels: Array<string> = []
+            let labels = []
             let match = re.exec(COMMENT_BODY)
             while (match) {
               const mark = match[1]
