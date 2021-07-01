@@ -17,5 +17,4 @@ jobs:
     needs: [label_guard]
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "topic2_gha_job1"
+      - run: sleep 30s
