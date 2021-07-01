@@ -42,17 +42,17 @@ jobs:
         with:
           script: |
             const {COMMENT_ID, COMMENT_BODY} = process.env
-            const re = new RegExp('-\s+\[([\s|x])\]\s+(.*)[\r\n]+/g')
-            const matches = COMMENT_BODY.matchAll(re)
-
-            consle.log(JSON.stringify(matches))
+            const re = new RegExp(/-\s+\[([\s|x])\]\s+(.*)[\r\n]+/g)
 
             let labels: Array<string> = []
-            for (const match of matches) {
-              const { mark, label } = match.groups
+            let match = re.exec(COMMENT_BODY)
+            while (match) {
+              const mark = match[1]
+              const label = match[2]
               if (mark == "x") {
                 labels.push(label)
               }
+              match = re.exec(COMMENT_BODY)
             }
 
             github.issues.addLabels({
