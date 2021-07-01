@@ -1,4 +1,4 @@
-name: ci/topic2
+name: ciflow_mac
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
@@ -14,10 +14,14 @@ on:
 jobs:
   label_guard:
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'ci/topic2')
     steps:
       - run: echo "noop"
-  topic2_gha_job1:
+  mac_1:
+    needs: [label_guard]
+    runs-on: ubuntu-latest
+    steps:
+      - run: sleep 30s
+  mac_2:
     needs: [label_guard]
     runs-on: ubuntu-latest
     steps:

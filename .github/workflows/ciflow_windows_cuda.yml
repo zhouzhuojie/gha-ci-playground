@@ -1,4 +1,4 @@
-name: ci/topic4
+name: ciflow_windows_cuda
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
@@ -14,10 +14,10 @@ on:
 jobs:
   label_guard:
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'ci/topic4')
+    if: github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'ci/cuda')
     steps:
       - run: echo "noop"
-  topic4_gha_job1:
+  windows_job1:
     needs: [label_guard]
     runs-on: ubuntu-latest
     steps:

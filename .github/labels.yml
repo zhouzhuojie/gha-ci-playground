@@ -1,21 +1,12 @@
 - color: 198be8
   description: oncall for jit
   name: 'oncall: jit'
-- color: 198be8
-  description: ok-to-test
-  name: 'ok-to-test'
 - color: daf222
   description: default
   name: ci/default
 - color: daf222
   description: topic1
-  name: ci/topic1
+  name: ci/extra
 - color: daf222
   description:
-  name: ci/topic2
-- color: daf222
-  description:
-  name: ci/topic3
-- color: daf222
-  description:
-  name: ci/topic4
+  name: ci/cuda

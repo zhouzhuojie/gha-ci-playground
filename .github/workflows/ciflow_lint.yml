@@ -1,0 +1,28 @@
+name: ciflow_lint
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  label_guard:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "noop"
+  lint_1:
+    needs: [label_guard]
+    runs-on: ubuntu-latest
+    steps:
+      - run: sleep 30s
+  lint_2:
+    needs: [label_guard]
+    runs-on: ubuntu-latest
+    steps:
+      - run: sleep 30s

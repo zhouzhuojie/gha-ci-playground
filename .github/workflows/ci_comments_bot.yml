@@ -28,16 +28,16 @@ jobs:
             const body = `
             # 📚 ciflow test plan!
             - [x] ci/default
-              - lint.yml
-              - linux.yml
-              - windows.yml
-              - mac.yml
+              - ciflow_lint.yml
+              - ciflow_linux.yml
+              - ciflow_windows.yml
+              - ciflow_mac.yml
             - [ ] ci/extra
-              - linux_extra.yml
-              - windows_extra.yml
-              - mac_extra.yml
-            - [ ] ci/cuda11
-              - windows_cuda_11.yml
+              - ciflow_linux_extra.yml
+              - ciflow_windows_extra.yml
+              - ciflow_mac_extra.yml
+            - [ ] ci/cuda
+              - ciflow_windows_cuda.yml
             ----
             `
             github.issues.createComment({
@@ -132,6 +132,4 @@ jobs:
             })
 
             return result
-
-
 
