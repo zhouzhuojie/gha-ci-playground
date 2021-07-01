@@ -4,7 +4,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
-on: issue_comment
+on:
+  issue_comment:
+  pull_request:
 
 jobs:
   dispatch_labels:
@@ -16,20 +18,28 @@ jobs:
         id: fc
         with:
           issue-number: ${{ github.event.issue.number }}
-          body-includes: '# 📚 Test Plan!'
+          body-includes: '# 📚 ciflow test plan!'
 
       - name: add comment block
         uses: actions/github-script@v4
         if: steps.fc.outputs.comment-id == 0
         with:
           script: |
-            const body = "# 📚 Test Plan!\n" +
-              "- [x] ci/default\n" +
-              "- [ ] ci/topic1\n" +
-              "- [ ] ci/topic2\n" +
-              "- [ ] ci/topic3\n" +
-              "- [ ] ci/topic4\n" +
-              "----"
+            const body = `
+            # 📚 ciflow test plan!
+            - [x] ci/default
+              - lint.yml
+              - linux.yml
+              - windows.yml
+              - mac.yml
+            - [ ] ci/extra
+              - linux_extra.yml
+              - windows_extra.yml
+              - mac_extra.yml
+            - [ ] ci/cuda11
+              - windows_cuda_11.yml
+            ----
+            `
             github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -39,29 +49,89 @@ jobs:
 
       - name: dispatch labels
         uses: actions/github-script@v4
-        if: steps.fc.outputs.comment-id != 0
+        if: steps.fc.outputs.comment-id == github.event.comment.id
         env:
           COMMENT_ID: ${{ steps.fc.outputs.comment-id }}
           COMMENT_BODY: ${{ steps.fc.outputs.comment-body }}
         with:
           script: |
             const {COMMENT_ID, COMMENT_BODY} = process.env
-            const re = new RegExp(/-\s+\[([\s|x])\]\s+(.*)[\r\n]+/g)
+            const re = new RegExp(/-\s+\[([\s|x])\]\s+(.*)[\r\n]((\s\s-.*yml[\r\n])*)/g)
 
-            let labels = []
+            let labels = new Array<string>()
             let match = re.exec(COMMENT_BODY)
+            let workflows = new Set<string>()
             while (match) {
               const mark = match[1]
               const label = match[2]
+              const w = match[3].split('\n').map(x => {
+                const re = new RegExp(/-\s(.*yml)/g)
+                const match = re.exec(x)
+                if (!match) {
+                    return ""
+                }
+                return match[1]
+              }).filter(item => item != "")
+
               if (mark == "x") {
                 labels.push(label)
+                for (const wf of w) {
+                    workflows.add(wf)
+                }
               }
               match = re.exec(COMMENT_BODY)
             }
 
-            github.issues.addLabels({
-              issue_number: context.issue.number,
+            await github.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
+              issue_number: context.issue.number,
               labels: labels
             })
+
+            const pr = await github.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            })
+
+            let rerun_workflows = new Array<string>()
+            for (const wf of workflows) {
+              const runs = await github.actions.listWorkflowRuns({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                branch: pr.data.head.ref,
+                workflow_id: wf
+              })
+
+              if (runs.data && runs.data.workflow_runs.length > 0) {
+                const lastRun = runs.data.workflow_runs[0]
+                if (lastRun.conclusion == 'skipped') {
+                  github.actions.reRunWorkflow({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    run_id: lastRun.id
+                  })
+                  rerun_workflows.push(wf)
+                }
+              }
+            }
+
+            const result = {
+              timestamp: new Date(),
+              labels,
+              rerun_workflows,
+              workflows: [...worklfows]
+            }
+
+            github.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: COMMENT_ID,
+              body: COMMENT_BODY + `\`\`\`json\n${JSON.stringify(result, null, 2)}\n\`\`\`\n----\n`
+            })
+
+            return result
+
+
+
