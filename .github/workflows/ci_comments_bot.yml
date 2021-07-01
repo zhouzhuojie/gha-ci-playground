@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ciflow
-        uses: zhouzhuojie/ciflow@f9a149c29cc5f930b957317947b4f9e93fb88141
+        uses: zhouzhuojie/ciflow@e57087ed4ceb56ae4b285eedfba0ac4505ada7d9
         with:
           comment-body: |
             - [x] ci/default
