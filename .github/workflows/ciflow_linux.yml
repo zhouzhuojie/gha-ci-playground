@@ -15,7 +15,7 @@ on:
 jobs:
   label_guard:
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || contains(github.event.payload.label.name, 'ci/default')
+    if: github.event_name != 'pull_request' || contains(github.event.label.name, 'ci/default')
     steps:
       - run: echo "noop"
   linux_1:
