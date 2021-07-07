@@ -11,9 +11,9 @@ jobs:
     steps:
       - uses: hmarr/debug-action@v2
       - name: ciflow
-        uses: zhouzhuojie/ciflow@a7793105a49bd300b477f467438525e334929032
+        uses: zhouzhuojie/ciflow@042b1a77faf0f667304be85b4d3abc8c5dcd88c5
         with:
-          github-token: ${{secrets.PAT}}
+          pat-token: ${{secrets.PAT}}
           role: dispatcher
           comment-head-fixture: '# 📚 CIFlow Test Plan'
           comment-body-fixture: |
