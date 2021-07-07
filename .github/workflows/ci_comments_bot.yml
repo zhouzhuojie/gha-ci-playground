@@ -1,11 +1,8 @@
 name: comments_bot
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
-  cancel-in-progress: true
-
 on:
   issue_comment:
+    types: [edited]
   pull_request:
 
 jobs:
@@ -13,10 +10,13 @@ jobs:
     if: github.event.issue.pull_request
     runs-on: ubuntu-latest
     steps:
+      - uses: hmarr/debug-action@v2
       - name: ciflow
-        uses: zhouzhuojie/ciflow@08a445e3a6eeef8ad25f39698eaa579f997ac88e
+        uses: zhouzhuojie/ciflow@dd1a0a8c85618585b76a611ae848a8527eb18b5e
         with:
-          comment-body: |
+          role: dispatcher
+          comment-head-fixture: '# 📚 CIFlow Test Plan'
+          comment-body-fixture: |
             - [x] ci/default
               - ciflow_lint.yml
               - ciflow_linux.yml

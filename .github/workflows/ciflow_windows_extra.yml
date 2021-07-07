@@ -6,6 +6,7 @@ concurrency:
 
 on:
   pull_request:
+    types: [unlabeled]
   push:
     branches:
       - master
@@ -14,7 +15,7 @@ on:
 jobs:
   label_guard:
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'ci/extra')
+    if: github.event_name != 'pull_request' || contains(github.event.payload.label.name, 'ci/extra')
     steps:
       - run: echo "noop"
   windows_extra_1:
