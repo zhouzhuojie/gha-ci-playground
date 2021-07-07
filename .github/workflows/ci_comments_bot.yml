@@ -11,20 +11,20 @@ jobs:
     steps:
       - uses: hmarr/debug-action@v2
       - name: ciflow
-        uses: zhouzhuojie/ciflow@042b1a77faf0f667304be85b4d3abc8c5dcd88c5
+        uses: zhouzhuojie/ciflow@1af33d4829231ab1333bb36815bbdcbd0abddad7
         with:
           pat-token: ${{secrets.PAT}}
           role: dispatcher
           comment-head-fixture: '# 📚 CIFlow Test Plan'
           comment-body-fixture: |
-            - [x] ci/default
+            - [x] #default
               - ciflow_lint.yml
               - ciflow_linux.yml
               - ciflow_windows.yml
               - ciflow_mac.yml
-            - [ ] ci/extra
+            - [ ] #extra
               - ciflow_linux_extra.yml
               - ciflow_windows_extra.yml
               - ciflow_mac_extra.yml
-            - [ ] ci/cuda
+            - [ ] #cuda
               - ciflow_windows_cuda.yml

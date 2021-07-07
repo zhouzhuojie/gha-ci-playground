@@ -3,10 +3,10 @@
   name: 'oncall: jit'
 - color: daf222
   description: default
-  name: ci/default
+  name: ciflow/default
 - color: daf222
   description: topic1
-  name: ci/extra
+  name: ciflow/extra
 - color: daf222
   description:
-  name: ci/cuda
+  name: ciflow/cuda

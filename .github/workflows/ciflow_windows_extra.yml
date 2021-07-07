@@ -15,7 +15,9 @@ on:
 jobs:
   label_guard:
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || contains(github.event.label.name, 'ci/extra')
+    if: >-
+      github.event_name != 'pull_request' ||
+      (startWith(github.event.label.name, 'ciflow:') && contains(github.event.label.name, '#extra'))
     steps:
       - run: echo "noop"
   windows_extra_1:
