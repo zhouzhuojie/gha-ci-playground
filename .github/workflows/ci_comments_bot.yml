@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: hmarr/debug-action@v2
       - name: ciflow
-        uses: zhouzhuojie/ciflow@1af33d4829231ab1333bb36815bbdcbd0abddad7
+        uses: zhouzhuojie/ciflow@9428cdb8e4f9a4f2b2fff73dad1b721cda615b83
         with:
           pat-token: ${{secrets.PAT}}
           role: dispatcher
