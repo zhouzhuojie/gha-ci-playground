@@ -22,7 +22,7 @@ jobs:
     needs: [debug]
     if: >-
       github.event_name != 'pull_request' ||
-      (startWith(github.event.label.name, 'ciflow:') && contains(github.event.label.name, '#extra'))
+      (startsWith(github.event.label.name, 'ciflow:') && contains(github.event.label.name, '#extra'))
     steps:
       - run: echo "noop"
   mac_extra_1:

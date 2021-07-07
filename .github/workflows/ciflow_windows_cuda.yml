@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     if: >-
       github.event_name != 'pull_request' ||
-      (startWith(github.event.label.name, 'ciflow:') && contains(github.event.label.name, '#cuda'))
+      (startsWith(github.event.label.name, 'ciflow:') && contains(github.event.label.name, '#cuda'))
     steps:
       - run: echo "noop"
   windows_job1:
