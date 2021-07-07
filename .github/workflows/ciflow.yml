@@ -5,7 +5,7 @@ on:
     types: [edited]
   pull_request:
     branches:
-      - *ciflow
+      - '*ciflow'
 
 jobs:
   ciflow:
