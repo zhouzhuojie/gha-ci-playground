@@ -3,12 +3,7 @@ name: ciflow
 on:
   issue_comment:
     types: [edited]
-  push:
-    branches:
-      - 'ciflow/**'
   pull_request:
-    branches:
-      - 'ciflow/**'
 
 jobs:
   ciflow:
