@@ -7,6 +7,8 @@ concurrency:
 on:
   pull_request:
     types: [unlabeled]
+    branches:
+      - *ciflow
   push:
     branches:
       - master

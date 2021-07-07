@@ -1,9 +1,11 @@
-name: comments_bot
+name: ciflow
 
 on:
   issue_comment:
     types: [edited]
   pull_request:
+    branches:
+      - *ciflow
 
 jobs:
   ciflow:
@@ -11,10 +13,11 @@ jobs:
     steps:
       - uses: hmarr/debug-action@v2
       - name: ciflow
-        uses: zhouzhuojie/ciflow@d45d8a2c42b28b3996787508506198baae396384
+        uses: zhouzhuojie/ciflow@93ee4b4b3076c2d8fd9ad8ed19ca5aa7ee3d31b8
         with:
           pat-token: ${{secrets.PAT}}
           role: dispatcher
+          branch: '*ciflow'
           comment-head-fixture: '# 📚 CIFlow Test Plan'
           comment-body-fixture: |
             - [x] #default
