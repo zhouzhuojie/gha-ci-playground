@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: hmarr/debug-action@v2
       - name: ciflow
-        uses: zhouzhuojie/ciflow@dd1a0a8c85618585b76a611ae848a8527eb18b5e
+        uses: zhouzhuojie/ciflow@966e4534e4e7ca30578dec7feb7c03c6945f438e
         with:
           role: dispatcher
           comment-head-fixture: '# 📚 CIFlow Test Plan'
