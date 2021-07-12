@@ -3,7 +3,7 @@ name: ciflow
 on:
   issue_comment:
     types: [edited]
-  pull_request:
+  pull_request_target:
 
 jobs:
   ciflow:
