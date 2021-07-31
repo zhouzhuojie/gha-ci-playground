@@ -15,7 +15,7 @@ on:
 jobs:
   label_guard:
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || contains(github.event.label.name, 'ciflow/default')
+    if: github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'ciflow/default')
     steps:
       - run: echo "noop"
   mac_1:

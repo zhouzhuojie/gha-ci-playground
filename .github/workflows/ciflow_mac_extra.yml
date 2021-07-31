@@ -20,7 +20,7 @@ jobs:
   label_guard:
     runs-on: ubuntu-latest
     needs: [debug]
-    if: github.event_name != 'pull_request' || contains(github.event.label.name, 'ciflow/extra')
+    if: github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'ciflow/extra')
     steps:
       - run: echo "noop"
   mac_extra_1:
