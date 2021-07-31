@@ -6,7 +6,7 @@ concurrency:
 
 on:
   pull_request:
-    types: [unlabeled]
+    types: [unassigned]
   push:
     branches:
       - master
@@ -15,9 +15,7 @@ on:
 jobs:
   label_guard:
     runs-on: ubuntu-latest
-    if: >-
-      github.event_name != 'pull_request' ||
-      (startsWith(github.event.label.name, 'ciflow:') && contains(github.event.label.name, '#default'))
+    if: github.event_name != 'pull_request' || contains(github.event.label.name, 'ciflow/default')
     steps:
       - run: echo "noop"
   windows_job1:
