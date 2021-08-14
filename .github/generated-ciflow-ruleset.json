@@ -22,6 +22,9 @@
       "win-vs2019-cpu-py3"
     ],
     "ciflow/cuda": [
+      "periodic-libtorch-linux-xenial-cuda11.3-py3.6-gcc7",
+      "periodic-linux-xenial-cuda11.3-py3.6-gcc7",
+      "periodic-win-vs2019-cuda11.3-py3",
       "win-vs2019-cuda10.1-py3"
     ]
   },
