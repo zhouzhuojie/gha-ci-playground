@@ -22,7 +22,8 @@
       "win-vs2019-cpu-py3"
     ],
     "ciflow/cuda": [
-      "win-vs2019-cuda10.1-py3"
+      "win-vs2019-cuda10.1-py3",
+      "win-vs2019-cuda11.1-py3"
     ]
   },
   "version": "v1"
